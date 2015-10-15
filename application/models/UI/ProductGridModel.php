@@ -4,7 +4,8 @@ require_once 'application/models/UI/ProductItemModel.php';
 require_once 'application/models/UI/FilterItemModel.php';
 require_once 'application/models/UI/AttributeFilterModel.php';	
 require_once 'application/models/UI/FilterModel.php';
-require_once 'application/models/UI/PriceFilterModel.php';	
+require_once 'application/models/UI/PriceFilterModel.php';
+require_once 'DataFactory.php';
 class ProductGridModel extends CI_Model{
 	public $filter;
 	public $sorter;
@@ -16,7 +17,7 @@ class ProductGridModel extends CI_Model{
 		$this->products = array();
 		$this->filterModel = new FilterModel();
 	}
-	public function init($filter, $sorter, $paging){
+	public function init($filter, $sorter, $paging, $type){
 		$this->filter = $filter;
 		$this->sorter = $sorter;
 		$this->paging = $paging;
@@ -39,7 +40,7 @@ class ProductGridModel extends CI_Model{
 				}
 			}
 		}
-		$filters = $productDa->getFilters($this->filter);
+		$filters = DataFactory::getFilters($type, $this->filter);
 		if(isset($filters)){
 			//provider filter
 			if(isset($filters['providers'])){

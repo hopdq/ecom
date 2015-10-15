@@ -128,12 +128,12 @@ class ProductDa extends CI_Model{
 	}
 	private function conditionGetProductsFilter($filter){
 		$this->db->join('Category c', 'c.Id = p.CategoryId');
-		$this->db->join('Category c2', 'c2.Id = c.ParentId', 'left');
 		$this->db->join('Provider pr', 'p.ProviderId = pr.Id', 'left');
 		if(isset($filter))
 		{
 			if(isset($filter->categoryId))
 			{
+				$this->db->join('Category c2', 'c2.Id = c.ParentId', 'left');
 				$this->db->where('( c.Id = '.$filter->categoryId.' or c.ParentId = '.$filter->categoryId.' or c2.ParentId = '.$filter->categoryId.' )');
 			} 
 			if(isset($filter->providerId)){
@@ -173,11 +173,13 @@ class ProductDa extends CI_Model{
 	}
 	private function conditionGetFilters($filter, $type){
 		$this->db->join('Category c', 'c.Id = p.CategoryId');
-		$this->db->join('Category c2', 'c.ParentId = c2.Id', 'left');
 		$this->db->join('Provider pr', 'p.ProviderId = pr.Id', 'left');
 		if(isset($filter))
 		{
-			$this->db->where('( c.Id = '.$filter->categoryId.' or c.ParentId = '.$filter->categoryId.' or c2.ParentId = '.$filter->categoryId.' )');
+			if(isset($filter->categoryId)){
+				$this->db->join('Category c2', 'c.ParentId = c2.Id', 'left');
+				$this->db->where('( c.Id = '.$filter->categoryId.' or c.ParentId = '.$filter->categoryId.' or c2.ParentId = '.$filter->categoryId.' )');
+			}
 			if(isset($filter->providerId)  && $type != 'provider'){
 				$this->db->where('p.ProviderId', $filter->providerId);
 			}
@@ -279,6 +281,67 @@ class ProductDa extends CI_Model{
 		$result = array(
 		 	'providers' => $providers,
 		 	'prices' => $prices,
+			'attributeValues' => $attributeValues,
+			'otherAttributeValues' => $otherAttributeValues);
+		return $result;
+	}
+	public function getFilterByProvider($filter){
+		$this->load->database('default');
+		$this->db->select('max(p.PromotionPrice) as maxPrice, min(p.PromotionPrice) as minPrice');
+		$this->conditionGetFilters($filter, 'price');
+		$queryPrice = $this->db->get('Product p');
+		$attributeValues = array();
+		if(count($filter->attrValues) > 0)
+		{
+			foreach ($filter->attrValues as $attrValue) {
+				$this->db->select('av.Id, av.Value, attr.Id as AttributeId, attr.Name as AttributeName, attr.Code as AttributeCode, count(*) as Cnt');
+				$this->conditionGetFilters($filter, $attrValue->attrId);
+				$this->db->join('ProductAttrValue pa', 'pa.ProductId = p.Id');
+				$this->db->join('AttributeValue av', 'av.Id = pa.AttributeValueId');
+				$this->db->join('Attributes attr', 'av.AttributeId = attr.Id');
+				$this->db->where('attr.Id',  $attrValue->attrId);
+				$this->db->group_by('av.Id, av.Value, attr.Id, attr.Name, attr.Code');
+				$queryAttributeValue = $this->db->get('Product p');
+				$attributeValueItem = $queryAttributeValue->result();
+				if(isset($attributeValueItem) && count($attributeValueItem) > 0){
+					array_push($attributeValues, $attributeValueItem);
+				}
+			}
+		}
+		$this->db->select('av.Id, av.Value, attr.Id as AttributeId, attr.Name as AttributeName, attr.Code as AttributeCode, count(*) as Cnt');
+		$this->conditionGetFilters($filter, 'attr');
+		$this->db->join('ProductAttrValue pa', 'pa.ProductId = p.Id');
+		$this->db->join('AttributeValue av', 'av.Id = pa.AttributeValueId');
+		$this->db->join('Attributes attr', 'av.AttributeId = attr.Id');
+		if(count($filter->attrValues) > 0)
+		{
+			$attrCondition = '(';
+			$cnt = 0;
+			foreach ($filter->attrValues as $attrValue) {
+				if($cnt == 0)
+				{
+					$attrCondition = $attrCondition.$attrValue->attrId;
+				}
+				else
+				{
+					$attrCondition = $attrCondition.','.$attrValue->attrId;
+				}
+				$cnt ++;
+			}
+			$attrCondition = $attrCondition.')';
+			$this->db->where('attr.Id not in '.$attrCondition);
+			// }
+			// else{
+			// 	$this->db->where('attr.Id !=',  $filter->attrValues[0]->attrId );
+			// }
+		}
+		$this->db->group_by('av.Id, av.Value, attr.Id, attr.Name, attr.Code');
+		$queryAttributeValue = $this->db->get('Product p');
+		$otherAttributeValues = $queryAttributeValue->result();
+		$prices = $queryPrice->row();
+		$this->db->close();
+		$result = array(
+			'prices' => $prices,
 			'attributeValues' => $attributeValues,
 			'otherAttributeValues' => $otherAttributeValues);
 		return $result;

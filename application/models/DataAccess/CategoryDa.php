@@ -38,12 +38,12 @@ class CategoryDa extends CI_Model{
 	}
 	public function getListByParentId($parentId){
 		$this->load->database('default');
-		$this->db->select('Id, Name, ParentId, Order');
+		$this->db->select('c.Id, c.Name, c.ParentId, c.Order');
 		$this->db->join('Category c2', 'c.ParentId = c2.Id', 'left');
 		$this->db->where('c.ParentId', $parentId);
 		$this->db->or_where('c2.ParentId', $parentId);
 		$this->db->order_by('order asc');
-		$query = $this->db->get('Category');
+		$query = $this->db->get('Category c');
 		$result = $query->result();
 		$this->db->close();
 		return $result;

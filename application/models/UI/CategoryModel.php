@@ -10,8 +10,8 @@ class CategoryModel extends CI_Model{
 	}
 	public function init($filter, $sort, $paging){
 		$this->grid = new ProductGridModel();
-		$this->grid->init($filter, $sort, $paging);
+		$this->grid->init($filter, $sort, $paging, 'category');
 		$this->childCategories = new CategoryListModel();
-		$this->childCategories->init($filter->CategoryId);
+		$this->childCategories->init($filter->categoryId);
 	}
 }

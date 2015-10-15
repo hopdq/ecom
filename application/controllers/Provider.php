@@ -4,31 +4,30 @@ require_once 'application/models/DataAccess/CategoryDa.php';
 require_once 'application/models/UI/FilterSelectedModel.php';
 require_once 'application/models/UI/PagingModel.php';
 require_once 'application/models/UI/PriceFilterModel.php';
-require_once 'application/models/UI/CategoryModel.php';
+require_once 'application/models/UI/ProviderModel.php';
 require_once 'application/models/UI/FrontMasterModel.php';
-class Category extends CI_Controller{
+class Provider extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
 	}
-	public function Index($categoryId){
+	public function Index($providerId){
 		$temp['title']="Danh mục sản phẩm";
-		$temp['content_view']='Front/Category/Index';
-		$temp['data'] = $categoryId;
-		$temp['loadDataUrl'] = site_url(array('Category', 'loadData', $categoryId));
-		$temp['loadGridData'] = site_url(array('Category', 'loadGridData'));
+		$temp['content_view']='Front/Provider/Index';
+		$temp['data'] = $providerId;
+		$temp['loadDataUrl'] = site_url(array('Provider', 'loadData', $providerId));
+		$temp['loadGridData'] = site_url(array('Provider', 'loadGridData'));
 		$this->load->view("Front/Shared/_Layout",$temp);
 	}
 	//load initial data for home page
-	public function loadData($categoryId){
+	public function loadData($providerId){
 		$model = new FrontMasterModel();
-		$body = new CategoryModel();
+		$body = new ProviderModel();
 		$filter = new FilterSelectedModel();
-		$filter->categoryId = $categoryId;
+		$filter->providerId = $providerId;
 		$sort = 'OLD_NEW';
 		$paging = new PagingModel(1, 12);
 		$body->init($filter, $sort, $paging);
-		$model->setCategoryId($categoryId);
 		$model->init($body);
 		$result = json_encode($model);
 		echo $result;
@@ -40,7 +39,7 @@ class Category extends CI_Controller{
 		$data = json_decode($input);
 		$paging = new PagingModel($data->paging->page, $data->paging->itemsGet);
 		$grid = new ProductGridModel();
-		$grid->init($data->filter, $data->sorter, $paging, 'category');
+		$grid->init($data->filter, $data->sorter, $paging, 'provider');
 		$jsonResult = json_encode($grid);
 		echo $jsonResult;
 	}

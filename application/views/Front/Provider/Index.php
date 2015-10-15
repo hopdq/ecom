@@ -3,43 +3,7 @@
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="left-sidebar">
-					<h2>Danh mục</h2>
-					<div class="panel-group category-products" id="child-categories" data-bind="foreach: childCategories.categories"><!--category-productsr-->
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<a data-bind="attr: { href: Link }, text: Name">
-									</a>
-									<a class="badge pull-right" data-toggle="collapse" data-bind="visible: children.length > 0, attr: { 'data-parent' : '#' + Id, href: '#' + Id}">
-										<span ><i class="fa fa-plus"></i></span>
-									</a>
-								</h4>
-							</div>
-							<div data-bind="attr: { id : Id}, visible: children.length > 0" class="panel-collapse collapse">
-								<div class="panel-body">
-									<ul data-bind="foreach: children">
-										<li><a data-bind="attr: { href : Link }, text: Name"></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div><!--/category-productsr-->
-					<div class="brands_products" data-bind="with: grid.filterModel"><!--brands_products-->
-						<div class="filter-item">
-							<h2>Thương hiệu</h2>
-							<div class="brands-name">
-								<ul class="nav nav-pills nav-stacked" data-bind="foreach: providers">
-									<li>
-										<a href="javascript:void(0)" data-bind="click: isActive ? $root.unSetProviderFilter : $root.setProviderFilter"> 
-											<span data-bind="text: Name"></span>
-											<span data-bind="text: '(' + Cnt + ')'"></span>
-											<i class="pull-right fa fa-square-o" data-bind="visible: !isActive"></i>
-											<i class="pull-right fa fa-check-square-o" data-bind="visible: isActive"></i>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
+					<div class="brands_products" data-bind="with: grid.filterModel">
 						<!--price-range-->
 						<div class="price-range" data-bind="with: price">
 							<h2>Khoảng giá</h2>
