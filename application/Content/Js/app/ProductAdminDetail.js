@@ -31,7 +31,7 @@ function ProductAdminDetailModel(){
   				self.priceBinding(formatPriceString(self.product.Price));
   				self.promotionValueBinding(formatPriceString(self.product.PromotionValue));
   			} 
-  			if(jsonData.listImgs != null){
+  			if(jsonData.listImgs != null && jsonData.listImgs.listImages != null){
   				var lstImgs = jsonData.listImgs.listImages;
   				var length = lstImgs.length;
   				for(var idx = 0; idx < length; idx ++){

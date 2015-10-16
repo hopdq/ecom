@@ -6,7 +6,7 @@ class ImageByProductModel extends CI_Model{
 	public $productId;
 	public function __construct($productId){
 		$this->productId = $productId;
-		if(isset($this->productId)){
+		if(isset($this->productId) && $this->productId != ''){
 			$this->listImages = array();
 			$imageDa = new ImageDa();
 			$listTmpImages = $imageDa->GetImgListByProduct($this->productId);

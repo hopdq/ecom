@@ -21,14 +21,14 @@ class CategoryListModel extends CI_Model{
 						array_push($this->categories, $cate);
 					}
 					else{
-						array_push($childs, $cate);
+						array_push($children, $cate);
 					}
 				}
 				if(count($this->categories) > 0)
 				{
 					if(count($children) > 0){
 						foreach ($this->categories as $parent) {
-							foreach ($childs as $child) {
+							foreach ($children as $child) {
 								if($child->ParentId == $parent->Id){
 									array_push($parent->children, $child);
 								}

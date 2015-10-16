@@ -3,27 +3,29 @@
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="left-sidebar">
-					<h2>Danh mục</h2>
-					<div class="panel-group category-products" id="child-categories" data-bind="foreach: childCategories.categories"><!--category-productsr-->
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<a data-bind="attr: { href: Link }, text: Name">
-									</a>
-									<a class="badge pull-right" data-toggle="collapse" data-bind="visible: children.length > 0, attr: { 'data-parent' : '#' + Id, href: '#' + Id}">
-										<span ><i class="fa fa-plus"></i></span>
-									</a>
-								</h4>
-							</div>
-							<div data-bind="attr: { id : Id}, visible: children.length > 0" class="panel-collapse collapse">
-								<div class="panel-body">
-									<ul data-bind="foreach: children">
-										<li><a data-bind="attr: { href : Link }, text: Name"></a></li>
-									</ul>
+					<div class="filter-item" data-bind="visible: childCategories.categories.length > 0">
+						<h2>Danh mục</h2>
+						<div class="panel-group category-products" id="child-categories" data-bind="foreach: childCategories.categories"><!--category-productsr-->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-bind="attr: { href: Link }, text: Name">
+										</a>
+										<a class="badge pull-right" data-toggle="collapse" data-bind="visible: children.length > 0, attr: { 'data-parent' : '#' + Id, href: '#' + Id}">
+											<span ><i class="fa fa-plus"></i></span>
+										</a>
+									</h4>
+								</div>
+								<div data-bind="attr: { id : Id}, visible: children.length > 0" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul data-bind="foreach: children">
+											<li><a data-bind="attr: { href : Link }, text: Name"></a></li>
+										</ul>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div><!--/category-productsr-->
+						</div><!--/category-productsr-->
+					</div>
 					<div class="brands_products" data-bind="with: grid.filterModel"><!--brands_products-->
 						<div class="filter-item">
 							<h2>Thương hiệu</h2>
