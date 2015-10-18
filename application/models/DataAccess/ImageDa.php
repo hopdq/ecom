@@ -3,11 +3,11 @@ require_once 'system/core/Model.php';
 class ImageDa extends CI_Model{
 	public function GetImgListByProduct($productId){
 		$this->load->database('default');
-		$this->db->select('Id, Path, IsDefault');
-		$this->db->join('ProductImage', 'Gallery.Id = ProductImage.ImageId', 'inner');
-		$this->db->where('ProductImage.ProductId', $productId);
-		$this->db->order_by('ProductImage.IsDefault DESC');
-		$query = $this->db->get('Gallery');
+		$this->db->select('g.Id, g.Path, p.IsDefault');
+		$this->db->join('ProductImage p', 'g.Id = p.ImageId');
+		$this->db->where('p.ProductId', $productId);
+		$this->db->order_by('p.IsDefault DESC');
+		$query = $this->db->get('Gallery g');
 		$result = $query->result();
 		$this->db->close();
 		return $result;

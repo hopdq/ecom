@@ -512,7 +512,7 @@ abstract class CI_DB_driver {
 	 */
 	public function db_set_charset($charset)
 	{
-		if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset))
+		if (method_exists($this, '_db_set_charset') && $this->_db_set_charset($charset) != 1)
 		{
 			log_message('error', 'Unable to set database connection charset: '.$charset);
 

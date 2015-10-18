@@ -344,15 +344,16 @@
 		var productId = $('#productId').val();
 		model.Init(productId, <?php echo '"'.site_url(array('AdminProduct', 'ProductAdminDetailData')).'"'; ?>);
 		var baseUrl = $('#baseUrl').val();
-		CKEDITOR.replace( 'content', {
+		var editor = CKEDITOR.replace( 'content', {
 			height: '500px',
-		    filebrowserBrowseUrl: baseUrl + 'application/Content/asset/ckfinder/ckfinder.html',
-		    filebrowserImageBrowseUrl: baseUrl + 'application/Content/asset/ckfinder/ckfinder.html?type=Images',
-		    filebrowserFlashBrowseUrl: baseUrl + 'application/Content/asset/ckfinder/ckfinder.html?type=Flash',
-		    filebrowserUploadUrl: baseUrl + 'application/Content/asset/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-		    filebrowserImageUploadUrl: baseUrl + 'application/Content/asset/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-		    filebrowserFlashUploadUrl: baseUrl + 'application/Content/asset/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+		    filebrowserBrowseUrl: "<?php echo base_url().'/application/Content/asset/ckfinder/ckfinder.html'?>",
+		    filebrowserImageBrowseUrl: "<?php echo base_url().'application/Content/asset/ckfinder/ckfinder.html?type=Images';?>",
+		    filebrowserFlashBrowseUrl: "<?php echo base_url().'application/Content/asset/ckfinder/ckfinder.html?type=Flash';?>",
+		    filebrowserUploadUrl: "<?php echo base_url().'application/Content/asset/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';?>",
+		    filebrowserImageUploadUrl: "<?php echo base_url().'application/Content/asset/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';?>",
+		    filebrowserFlashUploadUrl: "<?php echo base_url().'application/Content/asset/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';?>"
 		} );
+		CKFinder.setupCKEditor(editor, "<?php echo base_url().'application/Content/asset/ckfinder/'?>" );
 		Dropzone.autoDiscover = false;
 		Dropzone.options.myDropzone = {
 		  init: function() {
