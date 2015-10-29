@@ -1,0 +1,37 @@
+RewriteEngine On
+RewriteBase /
+
+#-------------------------------------------------------------------
+#               Rewrite for none www
+#-------------------------------------------------------------------
+
+RewriteCond % off
+RewriteCond % !^localhost
+RewriteCond % !^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://www.%/$1 [R=301,L]
+
+RewriteCond % on
+RewriteCond % !^localhost
+RewriteCond % !^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://www.%/$1 [R=301,L]
+
+#-------------------------------------------------------------------
+#               End rewrite for none www
+#-------------------------------------------------------------------
+
+RewriteCond % !-f
+RewriteCond % !-d
+RewriteCond % !^/index.php
+#phải bỏ dòng dưới đây
+#RewriteCond % (/|\.php|\.html|\.htm|\.feed|\.js|\.css|\.pdf|\.raw|/[^.]*)$  [NC]
+
+RewriteCond $1 !^(index\.php|favicon\.ico|marketing|robots\.txt)
+RewriteRule (.*) index.php
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+
+RewriteCond % mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+RewriteCond % base64_encode.*\(.*\) [OR]
+RewriteCond % (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond % GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond % _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule ^(.*)$ index.php [F,L]

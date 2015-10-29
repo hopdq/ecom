@@ -1,5 +1,6 @@
 <?php
 require_once 'application/models/DataAccess/CategoryDa.php';
+require_once 'application/models/DataAccess/ProviderDa.php';
 class NavigatorModel extends CI_Model{
 	public $listCategories;
 	public $categoryId;
@@ -32,18 +33,47 @@ class NavigatorModel extends CI_Model{
 					array_push($childs, $cate);
 				}
 			}
+			$providerDa = new ProviderDa();
 			if(isset($this->listCategories) && count($this->listCategories) > 0){
 				foreach ($this->listCategories as $parent) {
-					$parent->listChilds = array();
+					$parent->groupChilds = array(0 => array());
+					$cnt = 1;
+					$maxPages = 2;
+					$limit = 15;
+					$page = 0;
+					$parent->groupChilds[0]['listItems'] = array();
+					$curChilds = array();
 					foreach ($childs as $child) {
-						if($child->ParentId == $parent->Id){
-							$child->listChilds = array();
+						if($child->ParentId == $parent->Id) {
+							$child->isLv2 = true;
+							array_push($curChilds, $child);
 							foreach ($childs as $gchild) {
 								if($gchild->ParentId == $child->Id){
-									array_push($child->listChilds, $gchild);
+									$gchild->isLv2 = false;
+									array_push($curChilds, $gchild);
 								}
 							}
-							array_push($parent->listChilds, $child);
+						}
+					}
+					$maxItems = count($curChilds);
+					$realItemsPerPage = ceil($maxItems / $maxPages);
+					$limit = max($realItemsPerPage, $limit);
+					foreach ($curChilds as $child) {
+						array_push($parent->groupChilds[$page]['listItems'], $child);
+						if ($cnt < $limit) {
+							$cnt++;
+						} else {
+							$cnt = 1;
+							$page++;
+							$parent->groupChilds[$page]['listItems'] = array();
+						}
+					}
+					$parent->providers = array();
+					$providers = $providerDa->getListProvidersByCateLv1($parent->Id);
+					if(isset($providers) && count($providers) > 0){
+						foreach($providers as $provider){
+							$provider->Link = base_url('thuong-hieu/'.$provider->Id);
+							array_push($parent->providers, $provider);
 						}
 					}
 				}

@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'Home';
 $route['quan-tri'] = "AdminHome/Index";
+$route['dang-nhap'] = "Customer/Login";
 $route['danh-muc/(:num)'] = "Category/Index/$1";
 $route['thuong-hieu/(:num)'] = "Provider/Index/$1";
 $route['san-pham/(:num)'] = "ProductDetail/Index/$1";

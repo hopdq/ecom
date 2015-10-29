@@ -63,6 +63,7 @@ function homeModel(){
 				}
 			}
 			ko.applyBindings(self);
+			navigatorEffect();
 		});
 		self.initBanner(loadBannerUrl);
 	};
@@ -73,6 +74,7 @@ function homeModel(){
 			}
 			if(data.customer != null){
 				self.customer = data.customer;
+				self.login = data.customer.isLogin;
 			}
 			if(data.shoppingCart != null){
 				self.shoppingCart = data.shoppingCart;

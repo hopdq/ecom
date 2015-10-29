@@ -51,26 +51,23 @@
 				<div class="category-tab shop-details-tab"><!--category-tab-->
 					<div class="col-sm-12">
 						<ul class="nav nav-tabs">
-							<li class="active"><a href="#details" data-toggle="tab">Chi tiết</a></li>
-							<li ><a href="#reviews" data-toggle="tab">Bình luận</a></li>
+							<li class="active"><a href="#details" data-toggle="tab">Mô tả</a></li>
+							<li ><a href="#attributes" data-toggle="tab">Thông số kỹ thuật</a></li>
 						</ul>
 					</div>
 					<div class="tab-content">
 						<div class="tab-pane fade active in" id="details" data-bind="html: detail.Description">
 						</div>
-						<div class="tab-pane fade" id="reviews" >
-							<div class="col-sm-12">
-								<form action="#">
-									<span>
-										<input type="text" placeholder="Your Name"/>
-										<input type="email" placeholder="Email Address"/>
-									</span>
-									<textarea name="" ></textarea>
-									<b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
-									<button type="button" class="btn btn-default pull-right">
-										Submit
-									</button>
-								</form>
+						<div class="tab-pane fade" id="attributes">
+							<div class="col-sm-12" data-bind="foreach: attrs">
+								<div class="row">
+									<div class="name col-sm-4" data-bind="text: Name">
+
+									</div>
+									<div class="value col-sm-6" data-bind="text: Value">
+
+									</div>
+								</div>
 							</div>
 						</div>
 						

@@ -156,9 +156,9 @@ class AdminProduct extends CI_Controller{
 		var_dump($result);
 	}
 	public function updateAttributeTest(){
-		$productId = '3';
-		$attrData = '["1","2","10","11"]';
-		$imgData = '{"tempImgIds":[52],"defaultImgId":0}';
+		$productId = '16';
+		$attrData = '["1","16","6","7"]';
+		$imgData = '{"tempImgIds":["90"],"defaultImgId":"90"}';
 		try {
 			$attr = json_decode($attrData);
 			$img = json_decode($imgData);
@@ -171,14 +171,6 @@ class AdminProduct extends CI_Controller{
 		} catch (Exception $e) {
 		    echo 'Caught exception: ',  $e->getMessage(), "\n";
 		}
-	}
-	public function listImgsGetTest(){
-		$productId = '5';
-		$data = '["1","3","4"]';
-		$attr = json_decode($data);
-		$da = new AttributeValueDa();
-		$result = $da->updateAttributeValues($productId, $attr);
-		echo $result;
 	}
 	public function uploadTest(){
 		$path = 'uploads/test.png';

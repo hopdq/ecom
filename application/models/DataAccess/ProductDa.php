@@ -237,6 +237,7 @@ class ProductDa extends CI_Model{
 				$this->db->join('AttributeValue av', 'av.Id = pa.AttributeValueId');
 				$this->db->join('Attributes attr', 'av.AttributeId = attr.Id');
 				$this->db->where('attr.Id',  $attrValue->attrId);
+				$this->db->where('attr.IsFilter', 1);
 				$this->db->group_by('av.Id, av.Value, attr.Id, attr.Name, attr.Code');
 				$queryAttributeValue = $this->db->get('Product p');
 				$attributeValueItem = $queryAttributeValue->result();
@@ -250,6 +251,7 @@ class ProductDa extends CI_Model{
 		$this->db->join('ProductAttrValue pa', 'pa.ProductId = p.Id');
 		$this->db->join('AttributeValue av', 'av.Id = pa.AttributeValueId');
 		$this->db->join('Attributes attr', 'av.AttributeId = attr.Id');
+		$this->db->where('attr.IsFilter', 1);
 		if(count($filter->attrValues) > 0)
 		{
 				$attrCondition = '(';
@@ -300,6 +302,7 @@ class ProductDa extends CI_Model{
 				$this->db->join('AttributeValue av', 'av.Id = pa.AttributeValueId');
 				$this->db->join('Attributes attr', 'av.AttributeId = attr.Id');
 				$this->db->where('attr.Id',  $attrValue->attrId);
+				$this->db->where('attr.IsFilter', 1);
 				$this->db->group_by('av.Id, av.Value, attr.Id, attr.Name, attr.Code');
 				$queryAttributeValue = $this->db->get('Product p');
 				$attributeValueItem = $queryAttributeValue->result();
@@ -313,6 +316,7 @@ class ProductDa extends CI_Model{
 		$this->db->join('ProductAttrValue pa', 'pa.ProductId = p.Id');
 		$this->db->join('AttributeValue av', 'av.Id = pa.AttributeValueId');
 		$this->db->join('Attributes attr', 'av.AttributeId = attr.Id');
+		$this->db->where('attr.IsFilter', 1);
 		if(count($filter->attrValues) > 0)
 		{
 			$attrCondition = '(';

@@ -114,6 +114,7 @@ function categoryModel(){
 				}
 			}
 			ko.applyBindings(self);
+			navigatorEffect();
 			self.initSlider();
 		});
 	};

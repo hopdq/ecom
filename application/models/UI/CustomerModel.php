@@ -2,6 +2,7 @@
 class CustomerModel extends CI_Model{
 	public $id;
 	public $name;
+	public $isLogin;
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('session');
@@ -13,8 +14,12 @@ class CustomerModel extends CI_Model{
 		}
 		if(isset($result))
 		{
+			$this->isLogin = true;
 			$id = $result->id;
 			$name = $result->name;
+		}
+		else{
+			$this->isLogin = false;
 		}
 	}
 }

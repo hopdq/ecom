@@ -65,3 +65,31 @@ function truncateString(str, maxLength){
     }
     return result;
 }
+
+function navigatorEffect(){
+	var flag = true;
+	$('.main-nav-item').hover(function(){
+		var id = $(this).attr('id');
+		$('.ul-main-nav li').removeClass('active');
+		$(this).addClass('active');
+		$('.sub-menu-box').hide(0, function(){
+			$('#sub-' + id).show();
+		});
+	}, function(){
+		if(flag) {
+			var id = $(this).attr('id');
+			$('#sub-' + id).hide();
+			$(this).removeClass('active');
+		}
+	});
+	$('.sub-menu-box').hover(function(){
+		flag = false;
+		setTimeout(function(){
+			flag = true;
+		}, 1000);
+	}, function(){
+		$(this).hide();
+		var id = $(this).attr('parent-id');
+		$('#menu-item-' + id).removeClass('active');
+	});
+}

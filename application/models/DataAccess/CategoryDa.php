@@ -5,9 +5,10 @@ class CategoryDa extends CI_Model{
 	}
 	public function getCategories(){
 		$this->load->database('default');
-		$this->db->select('Id, Name, ParentId, Order');
-		$this->db->order_by('order asc');
-		$query = $this->db->get('Category');
+		$this->db->select('c.Id, c.Name, c.ParentId, c.Order, c2.ParentId as gParentId');
+		$this->db->join('Category c2', 'c.ParentId = c2.Id', 'left');
+		$this->db->order_by('c.Order asc');
+		$query = $this->db->get('Category c');
 		$result = $query->result();
 		$this->db->close();
 		return $result;

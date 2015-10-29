@@ -30,6 +30,7 @@ function productDetailModel(){
 				}
 			}
 			ko.applyBindings(self);
+			navigatorEffect();
 		});
 	};
 	this.initHeader = function(data){
@@ -83,6 +84,7 @@ function productDetailModel(){
 			}
 			self.body.relateProducts.push(row);
 		}
+		self.body.attrs = data.attrs;
 	}
 	this.initFooter = function(footer){
 		self.footer = { providers : [], infor : {} };
