@@ -22,6 +22,17 @@
                         <input type="email" placeholder="Email"/>
                         <input type="password" placeholder="Mật khẩu"/>
                         <input type="password" placeholder="Nhập lại mật khẩu"/>
+                        <select>
+                            <option>-- Country --</option>
+                            <option>United States</option>
+                            <option>Bangladesh</option>
+                            <option>UK</option>
+                            <option>India</option>
+                            <option>Pakistan</option>
+                            <option>Ucrane</option>
+                            <option>Canada</option>
+                            <option>Dubai</option>
+                        </select>
                         <button type="submit" class="btn btn-default">Đăng ký</button>
                     </form>
                 </div><!--/sign up form-->

@@ -2,7 +2,7 @@ function homeModel(){
 	var self = this;
 	this.logo = "";
 	this.customer = {};
-	this.shoppingCart = {};
+	this.shoppingCart = ko.observable(new ShoppingCart());
 	this.navigator = [];
 	this.txtSearch = "";
 	this.slider = [];
@@ -77,7 +77,7 @@ function homeModel(){
 				self.login = data.customer.isLogin;
 			}
 			if(data.shoppingCart != null){
-				self.shoppingCart = data.shoppingCart;
+				self.shoppingCart(data.shoppingCart.items);
 			}
 			if(data.navigator != null){
 				self.navigator = data.navigator;
@@ -119,7 +119,7 @@ function homeModel(){
 		if(footer.infor != null){
 			self.footer.infor = footer.infor;
 		}
-	}
+	};
 	this.initCategories = function(data){
 		var length = data.length;
 		if(data != null && length > 0){
@@ -137,4 +137,39 @@ function homeModel(){
 			}
 		}
 	};
+	this.addToCart = function(productId, number){
+		if(number <= 0){
+			number = 1;
+		}
+		if(productId != null && productId != ""){
+			this.shoppingCart().addItem(productId, number);
+		}
+	};
+}
+function ShoppingCart(){
+	var self = this;
+	this.products = ko.observableArray([]);
+	this.addItem = function(productId, number){
+		var product = new CartItem(productId, number);
+		var check = false;
+		for(var idx = 0; idx < self.products.length; idx ++){
+			var item = self.products[idx];
+			if(item.productId == product.productId){
+				item.increase(product.count);
+				check = true;
+				break;
+			}
+		}
+		if(!check){
+			this.products.push(product);
+		}
+	}
+}
+function CartItem(productId, count){
+	var self = this;
+	this.productId = productId;
+	this.count = count;
+	this.increase = function(number){
+		count += number;
+	}
 }
